@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <div id="d"></div>
+  <script>
+     var xml = "<message type='chat'><body>hi,wuhan</body></message>";
+
+    if(window.DOMParser){
+      console.log()
+    }
+
+    var domParser = new window.DOMParser();
+    xml = domParser.parseFromString(xml,'text/xml');
+
+  console.log(xml.getAttribute('type'))
+  </script>
+</body>
+</html>

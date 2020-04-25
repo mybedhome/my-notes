@@ -1,0 +1,31 @@
+微信登录两种方式:
+第一种是pc端扫描二维码直接登录;
+知乎url:https://open.weixin.qq.com/connect/qrconnect?appid=wx268fcfe924dcb171&redirect_uri=https%3A%2F%2Fwww.zhihu.com%2Foauth%2Fcallback%2Fwechat&response_type=code&scope=snsapi_login&state=62333664663037622d376237612d343866662d383333302d636136313864376461626534#wechat
+
+第二种又分两种情况
+2.1 扫描二维码关注公众号之后再登录(这种方式没有获取信息权限的弹窗提示)。
+2.2 通过网页授权后再登录。
+
+2.2的登录逻辑为:
+1,调用接口获取code，接口地址为(https://open.weixin.qq.com/connect/oauth2/authorize#wechat_redirect)
+需要的参数为appid,redirect_uri,response_type,scope,state。scope的值为snsapi_base或snsapi_userinfo
+
+2,通过code调用接口获取access_token和openid
+接口:https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+
+3,通过access_token和openid调用接口获取用户基本信息
+接口:https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+
+关键词:
+php 方法
+stream_context_create
+
+如何引入一个自定义的php文件
+
+app下的common.php文件如何被包含进来?
+
+关于tp5框架的命名空间:
+声明一个类的时候，必须指定命名空间，这个命名空间的路径必须是这个类文件所在的目录
+比如app目录下有一个Test.php文件，那么Test.php文件声明的命名空间应该是namespace app;
+那么假如在\app\index\controller\A.php文件里实例化Test文件里的Test类，需要明确指定路径，如:
+new \app\Test();或者在文件开头使用use app\Test;那么在方法里实例化的时候只需要new Test();

@@ -1,0 +1,42 @@
+====查找文件或目录所在路径常用命令如下====
+which 返回指定的可执行命令的所在路径
+例如：which redis-cli
+返回/usr/local/bin/redis-cli
+
+### 查看某个端口使用情况
+netstat -lntp|grep PORT
+或者netstat -anp|grep PORT
+
+### 查看所有已占用的端口
+>netstat -lntpu
+
+### 查看linux系统版本
+> cat /etc/issue 或者 cat /etc/redhat-release
+
+> cat /proc/cpuinfo （Linux查看cpu相关信息，包括型号、主频、内核信息等
+3.which 　　which命令是查找命令是否存在，以及命令的存放位置在哪儿。 　　
+例：#which ls  　
+4.whereis 　　
+whereis命令只能用于搜索程序名，而且只搜索二进制文件（参数-b）和源代码文件（参数-s）。
+如果省略参数，则返回所有信息。
+whereis命令的使用实例： 　　
+#whereis vim
+
+查看内核版本号
+cat /proc/version
+
+在命令行输入内容到文件中
+```
+// echo命令只能输入单行字符到文件
+echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile //以追加方式写入
+echo -e "这个字符串覆盖原有内容\nhelloworld" > test.txt //以覆盖方式写入,-e参数能解析字符串中的换行符
+
+// tee命令输入多行内容到文件 -a参数是以追加的方式写入，而不是覆盖的方式
+tee -a /etc/docker/daemon.json <<EOF
+{
+  "registry-mirrors": ["https://aliyun.com"]
+}
+EOF
+
+//如果文件不存在，这两个命令都会自动创建
+```

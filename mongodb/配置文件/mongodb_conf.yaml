@@ -1,0 +1,21 @@
+processManagement:
+  fork: true
+systemLog:
+  destination: file
+  logAppend: true
+  path: /data/logs/mongod.log
+  logRotate: rename
+  timeStampFormat: iso8601-utc
+  quiet: true
+
+storage:
+  dbPath: /data/db
+  journal:
+    enabled: true
+
+net:
+  bindIp: localhost
+  port: 27017
+
+security:
+  authorization: enabled

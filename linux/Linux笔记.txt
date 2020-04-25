@@ -1,0 +1,78 @@
+/usr/bin/find / -name man 查看所有与man有关的文件和目录
+
+将包含man的目录及文件全部删除
+/usr/bin/find / -name man -exec rm -fr {} \;
+
+CentOS 安装包软件yum install packageName
+Ubuntu 安装包软件apt-get install packageName
+
+Linux通用下载工具wget curl
+
+rm xxx.tar.gz //删除压缩包
+
+rm -rf dirName 删除一个非空目录
+
+rmdir dirName 删除一个空目录
+
+DESTDIR=
+prefix?=/usr
+MANDIR=$(prefix)/share/man
+
+cp命令常用语法
+cp a.txt dir1 //将a.txt文件复制到dir1目录
+cp a.css b.css dir1 //将a.css和b.css文件复制到dir1目录
+cp a.css a2.css //备份a.css取名a2.css
+cp d.css{,.bak} //备份d.css文件，并在尾部加上.bak后缀
+cp dir2/* dir1 //将dir2目录下所有目录及文件复制到dir1目录
+cp -r dir3 dir1 //将dir3整个目录复制到dir1目录,dir1目录下会多一个dir3目录
+cp -u a.txt a2.txt //当a.txt文件的修改时间较a2.txt的修改时间要新时才复制文件到a2.txt,a2.txt的文件内容会被a.txt完全替换
+
+解压缩命令xz(xz命令只能压缩文件，不能压缩目录)
+
+xz -d a.xz //解压a.xz文件，原压缩文件a.xz会被删除
+xz -z a.txt //压缩a.txt文件，原文件a.txt会被删除，创建新压缩文件为a.txt.xz
+xz -zk a.txt //压缩a.txt文件并保留原文件a.txt
+
+tar -czvf demo.tar.gz demo //将demo目录压缩成demo.tar.gz文件
+xz -z demo.tar.gz //将demo.tar.gz压缩成demo.tar.gz.xz文件
+
+tar -xvf demo.tar.gz //解压文件
+tar -zxvf demo.tar.gz -C /usr/local/src //-C解压到指定目录
+
+解压缩命令rar unrar
+1,首先下载rar二进制包 https://www.rarlab.com/download.htm(官网地址)
+2,用tar命令解压下载的文件
+3,cd到刚解压的rar目录且执行make命令
+
+添加文件或目录到压缩档案中，使用a命令
+rar a abc.rar file1 //将文件file1添加到压缩文件abc.rar中，如果abc.rar不存在自动创建,file1保留当前目录
+rar m abc.rar file1  //跟上面一样，不同的是不保留当前目录的file1,且m参数只针对文件不针对目录
+rar a abc.rar //将当前目录中的所有文件和目录压缩到abc.rar文件中
+
+删除压缩文件中的文件
+rar d abc.rar file1 //删除abc.rar文件中的file1
+
+解压文件
+unrar x abc.rar //解压文件到完整路径(推荐)
+unrar e abc.rar //解压文件到当前目录，不会创建任何目录，所有文件都是同级，不推荐
+
+注意:使用unrar或rar命令可能需要root账号才行，sudo也不行
+
+创建软连接,通过这种方式可以给第三方软件设置全局环境
+比如通过二进制包安装的Node，默认只能在安装包下面的bin目录下使用node和npm命令
+通过将node和npm所在的路径连接到全局目录下比如/usr/local/bin目录，代码如下:
+ln -s /usr/local/src/node-v8.9.4-linux-x64/bin/node /usr/local/bin/node
+ln -s /usr/local/src/node-v8.9.4-linux-x64/bin/npm /usr/local/bin/npm
+设置以后就能在任何目录下使用node和npm命令了
+
+删除软连接(解除关系)
+rm -rf /usr/local/bin/node //注意后面不能加/符合，那样会将源文件删除
+rm -rf /usr/local/bin/node/ 删除软连接，同时删除源文件
+
+#检测后台进程是否存在
+ps -ef |grep redis
+
+#检测6379端口是否在监听
+netstat -lntp | grep 6379
+
+expat-devel //解析XML的包

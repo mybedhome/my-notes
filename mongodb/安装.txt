@@ -1,0 +1,57 @@
+一、通过yum 安装 mongodb 社区版(Community Edition)
+//当前最新稳定版本3.6
+
+1,创建/etc/yum.repos.d/mongodb-org-3.6.repo文件
+touch /etc/yum.repos.d/mongodb-org-3.6.repo
+将以下内容添加到刚创建的mongodb-org-3.6.repo文件中
+
+[mongodb-org-3.6]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc
+
+Note:默认情况下yum会自动升级软件包,为了防止自动升级mongodb带来的意外，可以将下面的指令添加到/etc/yum.conf文件中
+exclude=mongodb-org,mongodb-org-server,mongodb-org-shell,mongodb-org-mongos,mongodb-org-tools
+
+2,安装mongodb
+yum install -y mongodb-org
+
+Note:Mongodb默认将数据和日志文件存放在/var/lib/mongo，/var/log/mongodb下,并以mongodb用户身份运行；
+可以在/etc/mongod.conf文件中修改数据和日志的存放目录
+
+3,启动mongodb
+service mongod start
+//重启和停止命令为service mongod restart ;service mongod stop
+
+4,当系统重启的时候设置mongod服务自动启动
+chkconfig mongod on
+
+二、彻底卸载mongodb
+//停止mongod进程
+service mongod stop
+
+//删除以前安装的任何MongoDB软件包
+yum erase $(rpm -qa | grep mongodb-org)
+
+//删除MongoDB数据库和日志文件
+rm -r /var/log/mongodb
+rm -r /var/lib/mongo
+
+### 通过二进制包安装
+1,下载二进制包到某个目录，然后解压 wget http://xxx.com/mongo.tgz
+2，设置环境变量或创建软链接，以使mongod和mongo命令全局可用
+3，启动mongod -f /etc/mongodb_conf.yaml (以配置文件形式启动)
+4,创建开机启动，(因为不是yum安装所以不能使用chkconfig mongod on这种形式设置服务开机启动)
+~~~
+vi /etc/rc.local
+/usr/local/src/mongodb-linux-x86_64-rhel62-3.6.3/bin/mongod --config /etc/mongodb_conf.yaml
+//前一个为mongodb的安装目录,后一个为配置文件
+~~~
+另一种开机启动就是自己编写开机启动脚本并放到/etc/init.d/目录
+
+### 其他安全关闭mongod服务方式
+客户端 db.shutdownServer({timeoutSecs: 60}); //60s后关闭服务,必须切换到admin数据库执行
+服务端 mongod --shutdown --dbpath /data/db
+更多详细内容:https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#data-directories-and-permissions

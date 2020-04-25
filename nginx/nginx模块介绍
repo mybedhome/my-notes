@@ -1,0 +1,19 @@
+http upstream模块的三个指令:ip_hash,server,
+ip_hash指令，通过这个指令可以将某个用户的所有请求通过hash算法定位到第一次访问的那个服务器上
+
+
+### nginx常用模块
+ngx_index
+ngx_autoindex
+ngx_static(默认开启)，该模块专门处理静态文件
+ngx_gzip_static
+ngx_rewrite
+ngx_echo
+ngx_geo(标准)
+
+### 需要了解的配置指令
+```
+geo $dollar {
+  default "$";
+}
+```

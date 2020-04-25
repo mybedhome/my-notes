@@ -1,0 +1,27 @@
+一，数据库与集合的创建和删除
+1.1创建数据库和集合
+use demo //创建或切换数据库到demo
+使用show dbs 查看数据库列表,如果demo里面没有任何集合，demo数据库不会显示出来
+
+db.test.insert({x:1}) //创建test集合并插入一条文档
+如果集合不存在，第一次使用集合保存数据的时候会自动创建该集合
+使用show tables或show collections查看集合列表
+
+1.2删除数据库和集合
+db.dropDatabase() //删除当前数据库
+db.collectionName.drop() //删除集合
+
+二、数据的导入与导出
+mongoimport --db test --collection user --drop --file ~/address.json
+或者使用参数简写形式
+mongoimport -d test -c user --drop --file ~/address.json
+//注意：如果导入的数据文件是json格式的，file和drop参数前面必须是两个横杆
+
+如果要将数据导入到不同的主机或端口的mongod实例上，需要提供host和port参数,如:
+mongoimport --host 116.196.113.221 --db test --collection users --drop --file ~/address.json
+或者 mongoimport -h 116.196.113.221 -d test -c users --drop --file ~/address.json //默认连接的是远程主机27017端口，其他端口可以用--port or -p指定
+
+mongoimport 命令的其他参数:
+--type json|csv|tsv；默认是json格式
+--headerline 是否跳过第一行,当导入数据为csv或tsv时使用
+--upsertFields 只导入部分字段的数据，多个字段用逗号隔开

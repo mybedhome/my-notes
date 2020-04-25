@@ -1,0 +1,1 @@
+聚合管道表达式操作符包括$sum,$min,$max,$avg,$text,$push, 

@@ -1,0 +1,29 @@
+源码安装redis
+$ wget http://download.redis.io/releases/redis-4.0.6.tar.gz
+$ tar xzf redis-4.0.6.tar.gz
+$ cd redis-4.0.6
+$ make
+$ cd utils && ./install_server.sh
+//执行install_server.sh这个脚本会自动安装redis服务，会提示你选择监听的端口及conf文件和Logs的路径等，功能类似于npm init
+//安装成功后redis服务就自动开启了，可以通过netstat -lntp |grep 6379 查看6379端口被哪个服务使用了
+//或者ps -ef |grep redis 查看redis服务是否开启
+
+接下来给redis-cli命令创建快捷方式(软连接),以便在各个目录下面都可以使用
+ln -s /usr/local/src/redis-4.0.6/src/redis-cli /usr/local/bin/redis-cli
+
+如何停止/启动/重启redis服务
+/etc/init.d/redis_6379 stop 或者 redis-cli -h 127.0.0.1 -p 6379 shutdown
+/etc/init.d/redis_6379 start
+/etc/init.d/redis_6379 restart
+//redis_6379是自启动脚本名，每个人的命名都可能不一样
+
+yum安装redis
+yum -y install redis
+service redis start //开启redis服务
+chkconfig redis on //开机自启动
+
+将redis服务添加windows服务开机自动启动
+安装命令:
+redis-server.exe --service-install redis.windows.conf --loglevel verbose
+卸载命令：
+redis-server --service-uninstal

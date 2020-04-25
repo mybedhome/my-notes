@@ -1,0 +1,43 @@
+apache和nginx的区别主要是apache不支持高并发,nginx支持百万级的tcp连接，10万以上的高并发连接
+
+nginx的优点支持高并发，部署简单，内存消耗少,成本低
+nginx的缺点有rewrite模块的功能不够强大，模块没有apache多
+
+Nginx的安装
+先安装依赖
+yum -y install gcc gcc-c++ autoconf automake
+
+yum -y install pcre prce-devel
+
+yum -y install zlib zlib-devel
+
+yum install -y nginx
+
+安装成功之后可以使用下面的命令查找关于nginx的目录
+```
+find / -type d -name nginx
+运行上面的命令可以看到安装Nginx后创建了下面的几个nginx目录
+/var/log/nginx  //这个目录存放Nginx的日志文件包括错误日志和运行日志
+/var/lib/nginx
+/usr/share/nginx //这个目录存放html目录和modules目录
+/usr/lib64/nginx
+/usr/lib64/perl5/vendor_perl/auto/nginx //nginx的可执行程序路径
+/etc/nginx //这个目录存放所有nginx相关的配置文件
+```
+nginx 停止服务方式
+杀死进程
+ps -ef |grep nginx //查看服务进程
+
+kill -QUIT 1877 //从容停止
+kill -TERM (or INT) 1877 //快速停止
+pkill -9 1877 //强制停止
+
+nginx 重启服务方式
+kill -HUP 1877 //平滑重启
+nginx -s reload //重启
+
+验证配置文件是否正确
+nginx -t //如果配置文件不是在默认目录需要-c指定配置文件所在路径
+
+centos6.8 使用yum安装nginx，安装路径在/etc下，配置文件在/etc/nginx目录下
+html目录在/usr/share/nginx目录下
